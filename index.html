@@ -28,8 +28,8 @@
 
     organizeButton.addEventListener("click", () => {
       const code = inputCode.value;
-      // Updated regex to handle various method signatures
-      const methodRegex = /(\w+)\s*\([^)]*\)\s*\{[^}]*\}/g;
+      // More complex regex to attempt to handle nested structures
+      const methodRegex = /(\w+)\s*\([^)]*\)\s*\{(?:[^{}]|\{[^{}]*\}|[^{}]*\})+\}/g;
       let match;
       let methods = [];
 
