@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>JavaScript Method Organizer</title>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+</head>
+<body class="p-3">
+  <h2>JavaScript Method Organizer</h2>
+  <div class="form-group">
+    <label for="inputCode">Input Code:</label>
+    <textarea id="inputCode" rows="15" class="form-control"></textarea>
+  </div>
+  <button id="organizeButton" class="btn btn-primary mb-2">Organize Alphabetically</button>
+  <div class="form-group">
+    <label for="outputCode">Output Code:</label>
+    <textarea id="outputCode" rows="15" class="form-control" readonly></textarea>
+  </div>
+  <p>Total Methods in Input: <span id="inputCount">0</span></p>
+  <p>Total Methods in Output: <span id="outputCount">0</span></p>
+
+  <script>
+    const inputCode = document.getElementById("inputCode");
+    const organizeButton = document.getElementById("organizeButton");
+    const outputCode = document.getElementById("outputCode");
+    const inputCount = document.getElementById("inputCount");
+    const outputCount = document.getElementById("outputCount");
+
+    organizeButton.addEventListener("click", () => {
+      const code = inputCode.value;
+      // Updated regex to handle various method signatures
+      const methodRegex = /(\w+)\s*\([^)]*\)\s*\{[^}]*\}/g;
+      let match;
+      let methods = [];
+
+      while ((match = methodRegex.exec(code)) !== null) {
+        methods.push(match[0]);
+      }
+
+      inputCount.textContent = methods.length;
+
+      if (methods.length > 0) {
+        methods.sort((a, b) => {
+          const nameA = a.match(/^\w+/)[0].toLowerCase();
+          const nameB = b.match(/^\w+/)[0].toLowerCase();
+          return nameA.localeCompare(nameB);
+        });
+
+        outputCode.value = methods.join('\n\n');
+        outputCount.textContent = methods.length;
+      } else {
+        outputCode.value = "No JavaScript methods found in the input code.";
+        outputCount.textContent = 0;
+      }
+    });
+  </script>
+</body>
+</html>
