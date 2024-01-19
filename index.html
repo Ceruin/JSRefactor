@@ -7,7 +7,6 @@
 </head>
 <body class="p-3">
   <h2>JavaScript Method Organizer</h2>
-  <!-- Last updated section -->
   <p>Last Updated: <span id="lastUpdated"></span></p>
   <div class="form-group">
     <label for="inputCode">Input Code:</label>
@@ -32,17 +31,14 @@
     const inputLineCount = document.getElementById("inputLineCount");
     const outputLineCount = document.getElementById("outputLineCount");
 
-	// Display the last modified date and time of the document
     document.getElementById("lastUpdated").textContent = document.lastModified;
-    
 
     organizeButton.addEventListener("click", () => {
       const code = inputCode.value;
-
       inputLineCount.textContent = (code.match(/\n/g) || '').length + 1;
 
-      // Improved regex for method extraction
-      const methodRegex = /(\w+)\s*\(([^)]*)\)\s*\{[\s\S]*?\}/g;
+      // Regex to capture both traditional and class methods
+      const methodRegex = /((?:function\s+)?\w+)\s*\(([^)]*)\)\s*\{[\s\S]*?\}(?=\s*(?:\w+\s*\(|function|$))/g;
       let match;
       let methods = [];
 
@@ -54,8 +50,8 @@
 
       if (methods.length > 0) {
         methods.sort((a, b) => {
-          const nameA = a.match(/^\w+/)[0].toLowerCase();
-          const nameB = b.match(/^\w+/)[0].toLowerCase();
+          const nameA = a.match(/(?:function\s+)?(\w+)/)[1].toLowerCase();
+          const nameB = b.match(/(?:function\s+)?(\w+)/)[1].toLowerCase();
           return nameA.localeCompare(nameB);
         });
 
