@@ -17,7 +17,9 @@
     <textarea id="outputCode" rows="15" class="form-control" readonly></textarea>
   </div>
   <p>Total Methods in Input: <span id="inputCount">0</span></p>
+  <p>Total Lines in Input: <span id="inputLineCount">0</span></p>
   <p>Total Methods in Output: <span id="outputCount">0</span></p>
+  <p>Total Lines in Output: <span id="outputLineCount">0</span></p>
 
   <script>
     const inputCode = document.getElementById("inputCode");
@@ -25,11 +27,16 @@
     const outputCode = document.getElementById("outputCode");
     const inputCount = document.getElementById("inputCount");
     const outputCount = document.getElementById("outputCount");
+    const inputLineCount = document.getElementById("inputLineCount");
+    const outputLineCount = document.getElementById("outputLineCount");
 
     organizeButton.addEventListener("click", () => {
       const code = inputCode.value;
-      // More complex regex to attempt to handle nested structures
-      const methodRegex = /(\w+)\s*\([^)]*\)\s*\{(?:[^{}]|\{[^{}]*\}|[^{}]*\})+\}/g;
+
+      inputLineCount.textContent = (code.match(/\n/g) || '').length + 1;
+
+      // Using regex for method extraction (with limitations)
+      const methodRegex = /(\w+)\s*\([^)]*\)\s*\{[^}]*\}/g;
       let match;
       let methods = [];
 
@@ -48,9 +55,11 @@
 
         outputCode.value = methods.join('\n\n');
         outputCount.textContent = methods.length;
+        outputLineCount.textContent = (outputCode.value.match(/\n/g) || '').length + 1;
       } else {
         outputCode.value = "No JavaScript methods found in the input code.";
         outputCount.textContent = 0;
+        outputLineCount.textContent = 0;
       }
     });
   </script>
