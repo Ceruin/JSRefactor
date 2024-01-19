@@ -35,8 +35,8 @@
 
       inputLineCount.textContent = (code.match(/\n/g) || '').length + 1;
 
-      // Using regex for method extraction (with limitations)
-      const methodRegex = /(\w+)\s*\([^)]*\)\s*\{[^}]*\}/g;
+      // Improved regex for method extraction
+      const methodRegex = /(\w+)\s*\(([^)]*)\)\s*\{[\s\S]*?\}/g;
       let match;
       let methods = [];
 
