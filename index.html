@@ -38,11 +38,11 @@
       inputLineCount.textContent = (code.match(/\n/g) || '').length + 1;
 
       // Regex to capture both traditional and class methods
-      const methodRegex = /((?:function\s+)?\w+)\s*\(([^)]*)\)\s*\{[\s\S]*?\}(?=\s*(?:\w+\s*\(|function|$))/g;
+      const methodRegex = /((?:function\s+)?\w+)\s*\(([^)]*)\)\s*\{[\s\S]*?\}(?=\s*[\w\s]*\{|\s*\/\/\s*end-method|$)/g;
       let match;
       let methods = [];
 
-      while ((match = methodRegex.exec(code)) !== null) {
+       while ((match = methodRegex.exec(code)) !== null) {
         methods.push(match[0]);
       }
 
